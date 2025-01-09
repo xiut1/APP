@@ -1,95 +1,81 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import styles from "./page.module.scss";
+
+gsap.registerPlugin(useGSAP);
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const container = useRef(null);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useGSAP(() => {
+    gsap.set("svg", { opacity: 1 });
+
+    gsap.to(".ball", {
+      keyframes: {
+        "0%": { yPercent: 0, scaleX: 1, scaleY: 1 },
+        "7%": { yPercent: 5, scaleY: 0.9, scaleX: 1.1, ease: "sine.in" },
+        "25%": { yPercent: 100, scaleY: 1.15, scaleX: 0.9, ease: "sine.in" },
+        "50%": { yPercent: 500, scaleX: 1, scaleY: 1, ease: "none" },
+        "60%": { scaleX: 1.6, scaleY: 0.4, ease: "none" },
+        "65%": { yPercent: 500, scaleX: 1, scaleY: 1 },
+        "100%": { yPercent: 0, scaleX: 1, scaleY: 1 },
+        easeEach: "sine.out",
+      },
+      duration: 1,
+      repeat: -1,
+      transformOrigin: "center bottom",
+    });
+
+    gsap.to(".shadow", {
+      scale: 0.7,
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      transformOrigin: "center",
+    });
+  }); // <-- scope for selector text (optional)
+
+  return (
+    <div className="page">
+      <main className="main">
+        <div ref={container} className={styles.demo}>
+          <svg viewBox="0 0 100 200" className={styles.svg}>
+            <defs>
+              <linearGradient
+                id="grad-1"
+                x1="30"
+                y1="0"
+                x2="70"
+                y2="40"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0.2" stopColor="#0ae448" />
+                <stop offset="0.5" stopColor="#abff84" />
+              </linearGradient>
+            </defs>
+            <ellipse
+              className={styles.shadow}
+              cx="50"
+              cy="188"
+              rx="15"
+              ry="5"
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+
+            <circle
+              fill="url(#grad-1)"
+              className="ball"
+              cx="50"
+              cy="22"
+              r="15"
+            />
+          </svg>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <footer className="footer"></footer>
     </div>
   );
 }
