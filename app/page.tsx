@@ -58,7 +58,7 @@ export default function Home() {
               </linearGradient>
             </defs>
             <ellipse
-              className={styles.shadow}
+              className={`${styles.shadow} shadow`}
               cx="50"
               cy="188"
               rx="15"
