@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 interface ExperienceItem {
     id: string;
@@ -26,19 +25,13 @@ const Experience = () => {
     ];
 
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-lg p-8 mb-8"
-        >
+        <section className="bg-white rounded-lg shadow-lg p-8">
             <h2 className="text-3xl font-bold mb-6">Experience</h2>
             <div className="space-y-8">
                 {experiences.map((exp) => (
-                    <motion.div
+                    <div
                         key={exp.id}
-                        whileHover={{ x: 10 }}
-                        className="border-l-4 border-blue-500 pl-4"
+                        className="border-l-4 border-blue-500 pl-4 hover:border-blue-600 transition-colors"
                     >
                         <h3 className="text-xl font-semibold">{exp.company}</h3>
                         <div className="text-gray-600 mb-2">
@@ -51,10 +44,10 @@ const Experience = () => {
                                 </li>
                             ))}
                         </ul>
-                    </motion.div>
+                    </div>
                 ))}
             </div>
-        </motion.section>
+        </section>
     );
 };
 

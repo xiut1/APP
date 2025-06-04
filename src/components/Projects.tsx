@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 interface Project {
     id: string;
@@ -24,19 +23,13 @@ const Projects = () => {
     ];
 
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-lg p-8 mb-8"
-        >
+        <section className="bg-white rounded-lg shadow-lg p-8">
             <h2 className="text-3xl font-bold mb-6">Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {projects.map((project) => (
-                    <motion.div
+                    <div
                         key={project.id}
-                        whileHover={{ scale: 1.02 }}
-                        className="border rounded-lg overflow-hidden shadow-md"
+                        className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
                     >
                         <img
                             src={project.imageUrl}
@@ -65,10 +58,10 @@ const Projects = () => {
                                 프로젝트 보기 →
                             </a>
                         </div>
-                    </motion.div>
+                    </div>
                 ))}
             </div>
-        </motion.section>
+        </section>
     );
 };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 interface TechItem {
     id: string;
@@ -32,19 +31,13 @@ const TechStack = () => {
     ];
 
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-lg p-8 mb-8"
-        >
+        <section className="bg-white rounded-lg shadow-lg p-8">
             <h2 className="text-3xl font-bold mb-6">Tech Stack</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {technologies.map((tech) => (
-                    <motion.div
+                    <div
                         key={tech.id}
-                        whileHover={{ scale: 1.05 }}
-                        className="p-4 border rounded-lg shadow-sm"
+                        className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow"
                     >
                         <div className="flex items-center mb-2">
                             <span className="text-2xl mr-2">{tech.icon}</span>
@@ -52,17 +45,17 @@ const TechStack = () => {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div
-                                className="bg-blue-600 h-2.5 rounded-full"
+                                className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
                                 style={{ width: `${tech.proficiency}%` }}
                             />
                         </div>
                         <span className="text-sm text-gray-600 mt-1">
                             숙련도: {tech.proficiency}%
                         </span>
-                    </motion.div>
+                    </div>
                 ))}
             </div>
-        </motion.section>
+        </section>
     );
 };
 
