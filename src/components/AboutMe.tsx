@@ -17,7 +17,7 @@ const AboutMe = () => {
                 </p>
                 <div className="flex space-x-4">
                     <a href="mailto:your.email@example.com" className="text-blue-600 hover:text-blue-800">
-                        이메일
+                        이메일11
                     </a>
                     <a href="https://github.com/yourusername" className="text-blue-600 hover:text-blue-800">
                         GitHub
