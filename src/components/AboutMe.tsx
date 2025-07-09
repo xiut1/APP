@@ -1,27 +1,67 @@
 import React from 'react';
+import Card from './common/Card';
+import { DEFAULT_PORTFOLIO_DATA } from '../config/portfolio';
 
 const AboutMe = () => {
+    const { personalInfo } = DEFAULT_PORTFOLIO_DATA;
+    
     return (
-        <section className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold mb-6">About Me</h2>
+        <Card title="About Me">
             <div className="space-y-4">
-                <p className="text-gray-700">
-                    안녕하세요! 저는 열정적인 웹 개발자입니다. 사용자 경험을 개선하고
-                    혁신적인 솔루션을 만드는 것을 좋아합니다.
+                <div className="flex items-center space-x-4 mb-6">
+                    {personalInfo.avatar && (
+                        <img 
+                            src={personalInfo.avatar} 
+                            alt={personalInfo.name}
+                            className="w-16 h-16 rounded-full object-cover"
+                        />
+                    )}
+                    <div>
+                        <h3 className="text-xl font-semibold text-gray-800">{personalInfo.name}</h3>
+                        <p className="text-lg text-blue-600">{personalInfo.title}</p>
+                    </div>
+                </div>
+                
+                <p className="text-gray-700 leading-relaxed">
+                    {personalInfo.description}
                 </p>
-                <div className="flex space-x-4">
-                    <a href="mailto:your.email@example.com" className="text-blue-600 hover:text-blue-800">
-                        이메일
+                
+                <div className="flex flex-wrap gap-4 pt-4">
+                    <a 
+                        href={`mailto:${personalInfo.email}`} 
+                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                    >
+                        📧 이메일
                     </a>
-                    <a href="https://github.com/yourusername" className="text-blue-600 hover:text-blue-800">
-                        GitHub
+                    <a 
+                        href={personalInfo.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                    >
+                        🐙 GitHub
                     </a>
-                    <a href="https://linkedin.com/in/yourusername" className="text-blue-600 hover:text-blue-800">
-                        LinkedIn
+                    <a 
+                        href={personalInfo.linkedin} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                    >
+                        💼 LinkedIn
                     </a>
+                    {personalInfo.website && (
+                        <a 
+                            href={personalInfo.website} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                        >
+                            🌐 Website
+                        </a>
+                    )}
                 </div>
             </div>
-        </section>
+        </Card>
     );
 };
 

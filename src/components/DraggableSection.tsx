@@ -1,78 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { DraggableSectionProps } from '../types/portfolio';
+import { useDrag } from '../hooks/useDrag';
+import { DRAG_CONFIG, ANIMATION_CONFIG } from '../config/portfolio';
 
-interface Position {
-    x: number;
-    y: number;
-}
+const DraggableSection: React.FC<DraggableSectionProps> = ({ 
+    id, 
+    children, 
+    onPositionChange, 
+    initialPosition = { x: 0, y: 0 },
+    className = ''
+}) => {
+    const handlePositionChange = useCallback((position: typeof initialPosition) => {
+        onPositionChange(id, position);
+    }, [id, onPositionChange]);
 
-interface Props {
-    id: string;
-    children: React.ReactNode;
-    onPositionChange: (id: string, position: Position) => void;
-    initialPosition?: Position;
-}
-
-const DraggableSection: React.FC<Props> = ({ id, children, onPositionChange, initialPosition = { x: 0, y: 0 } }) => {
-    const [position, setPosition] = useState<Position>(initialPosition);
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragStart, setDragStart] = useState<Position>({ x: 0, y: 0 });
-    const [elementOffset, setElementOffset] = useState<Position>({ x: 0, y: 0 });
-
-    useEffect(() => {
-        setPosition(initialPosition);
-    }, [initialPosition]);
-
-    const handleMouseDown = (e: React.MouseEvent) => {
-        setIsDragging(true);
-        setDragStart({ x: e.clientX, y: e.clientY });
-        setElementOffset({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y
-        });
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-        if (!isDragging) return;
-
-        const newPosition = {
-            x: e.clientX - elementOffset.x,
-            y: e.clientY - elementOffset.y
-        };
-
-        setPosition(newPosition);
-        onPositionChange(id, newPosition);
-    };
-
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    useEffect(() => {
-        if (isDragging) {
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('mouseup', handleMouseUp);
+    const { position, isDragging, handlers } = useDrag({
+        initialPosition,
+        onPositionChange: handlePositionChange,
+        boundaries: {
+            minX: 0,
+            minY: 0,
+            maxX: typeof window !== 'undefined' ? window.innerWidth - 320 : 1000,
+            maxY: typeof window !== 'undefined' ? window.innerHeight - 200 : 1000
         }
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isDragging, elementOffset]);
+    });
 
     return (
-        <div
+        <motion.div
             style={{
                 position: 'absolute',
-                left: `${position.x}px`,
-                top: `${position.y}px`,
+                left: position.x,
+                top: position.y,
                 cursor: isDragging ? 'grabbing' : 'grab',
-                zIndex: isDragging ? 1000 : 1,
+                zIndex: isDragging ? DRAG_CONFIG.DRAG_Z_INDEX : 1,
             }}
-            onMouseDown={handleMouseDown}
-            className="w-full md:w-[600px]"
+            className={`w-full md:w-[600px] ${className}`}
+            {...handlers}
+            animate={{
+                scale: isDragging ? 1.05 : 1,
+                rotate: isDragging ? 2 : 0,
+            }}
+            transition={ANIMATION_CONFIG.SPRING}
+            whileHover={{ scale: 1.01 }}
         >
             {children}
-        </div>
+        </motion.div>
     );
 };
 
