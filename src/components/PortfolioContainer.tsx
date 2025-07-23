@@ -10,13 +10,14 @@ import { DEFAULT_POSITIONS, STORAGE_KEYS } from '../config/portfolio';
 const PortfolioContainer = () => {
     const [positions, setPositions] = useState<SectionPosition>(DEFAULT_POSITIONS);
     const [showSaveButton, setShowSaveButton] = useState(false);
-    const [zIndexes, setZIndexes] = useState<{[key: string]: number}>({
+    const [zIndexes, setZIndexes] = useState<{ [key: string]: number }>({
         about: 1,
         projects: 1,
         techStack: 1,
         experience: 1
     });
     const [maxZIndex, setMaxZIndex] = useState(1);
+    const [fixedItems, setFixedItems] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         // localStorage에서 저장된 위치 불러오기
@@ -46,6 +47,13 @@ const PortfolioContainer = () => {
         setZIndexes(prev => ({
             ...prev,
             [id]: newMaxZIndex
+        }));
+    };
+
+    const handleFixed = (id: string, isFixed: boolean) => {
+        setFixedItems(prev => ({
+            ...prev,
+            [id]: isFixed
         }));
     };
 
@@ -96,44 +104,48 @@ const PortfolioContainer = () => {
 
             {/* Draggable Sections */}
             <DraggableSection
-                id="about"
-                onPositionChange={handlePositionChange}
-                onDragStart={handleDragStart}
-                initialPosition={positions.about}
-                zIndex={zIndexes.about}
-            >
-                <AboutMe />
-            </DraggableSection>
+                    id="about"
+                    onPositionChange={handlePositionChange}
+                    onDragStart={handleDragStart}
+                    onFixed={handleFixed}
+                    initialPosition={positions.about}
+                    zIndex={zIndexes.about}
+                >
+                    <AboutMe />
+                </DraggableSection>
 
-            <DraggableSection
-                id="projects"
-                onPositionChange={handlePositionChange}
-                onDragStart={handleDragStart}
-                initialPosition={positions.projects}
-                zIndex={zIndexes.projects}
-            >
-                <Projects />
-            </DraggableSection>
+                <DraggableSection
+                    id="techStack"
+                    onPositionChange={handlePositionChange}
+                    onDragStart={handleDragStart}
+                    onFixed={handleFixed}
+                    initialPosition={positions.techStack}
+                    zIndex={zIndexes.techStack}
+                >
+                    <TechStack />
+                </DraggableSection>
 
-            <DraggableSection
-                id="techStack"
-                onPositionChange={handlePositionChange}
-                onDragStart={handleDragStart}
-                initialPosition={positions.techStack}
-                zIndex={zIndexes.techStack}
-            >
-                <TechStack />
-            </DraggableSection>
+                <DraggableSection
+                    id="projects"
+                    onPositionChange={handlePositionChange}
+                    onDragStart={handleDragStart}
+                    onFixed={handleFixed}
+                    initialPosition={positions.projects}
+                    zIndex={zIndexes.projects}
+                >
+                    <Projects />
+                </DraggableSection>
 
-            <DraggableSection
-                id="experience"
-                onPositionChange={handlePositionChange}
-                onDragStart={handleDragStart}
-                initialPosition={positions.experience}
-                zIndex={zIndexes.experience}
-            >
-                <Experience />
-            </DraggableSection>
+                <DraggableSection
+                    id="experience"
+                    onPositionChange={handlePositionChange}
+                    onDragStart={handleDragStart}
+                    onFixed={handleFixed}
+                    initialPosition={positions.experience}
+                    zIndex={zIndexes.experience}
+                >
+                    <Experience />
+                </DraggableSection>
         </div>
     );
 };

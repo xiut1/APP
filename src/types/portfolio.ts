@@ -73,6 +73,7 @@ export interface DraggableSectionProps {
     children: React.ReactNode;
     onPositionChange: (id: string, position: Position) => void;
     onDragStart?: (id: string) => void;
+    onFixed?: (id: string, isFixed: boolean) => void;
     initialPosition?: Position;
     className?: string;
     zIndex?: number;

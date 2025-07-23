@@ -9,6 +9,7 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
     children, 
     onPositionChange, 
     onDragStart,
+    onFixed,
     initialPosition = { x: 0, y: 0 },
     className = '',
     zIndex = 1
@@ -17,10 +18,12 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
         onPositionChange(id, position);
     }, [id, onPositionChange]);
 
-    const { position, isDragging, handlers } = useDrag({
+    const { position, isDragging, isFixed, isGravityActive, handlers } = useDrag({
         initialPosition,
         onPositionChange: handlePositionChange,
         onDragStart: () => onDragStart?.(id),
+        onFixed,
+        id,
         boundaries: {
             minX: 0,
             minY: 0,
@@ -35,17 +38,23 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
                 position: 'absolute',
                 left: position.x,
                 top: position.y,
-                cursor: isDragging ? 'grabbing' : 'grab',
+                cursor: isFixed ? 'default' : (isDragging ? 'grabbing' : 'grab'),
                 zIndex: isDragging ? DRAG_CONFIG.DRAG_Z_INDEX : zIndex,
+                filter: isFixed ? 'brightness(1.2) saturate(1.3)' : 'none',
             }}
-            className={`w-full md:w-[600px] ${className}`}
+            className={`w-full md:w-[600px] ${className} ${isFixed ? 'ring-2 ring-yellow-400 ring-opacity-50' : ''}`}
             {...handlers}
             animate={{
-                scale: isDragging ? 1.05 : 1,
-                rotate: isDragging ? 3 : Math.random() * 4 - 2,
+                scale: isDragging ? 1.05 : (isFixed ? 1.02 : 1),
+                rotate: isDragging ? 3 : (isFixed ? 0 : Math.random() * 4 - 2),
+                boxShadow: isFixed 
+                    ? '0 0 20px rgba(255, 255, 0, 0.3), 3px 3px 8px rgba(0, 0, 0, 0.3)'
+                    : isGravityActive 
+                        ? '2px 2px 6px rgba(0, 0, 0, 0.2)'
+                        : '3px 3px 8px rgba(0, 0, 0, 0.3)',
             }}
             transition={ANIMATION_CONFIG.SPRING}
-            whileHover={{ scale: 1.02, rotate: 0 }}
+            whileHover={!isFixed ? { scale: 1.02, rotate: 0 } : {}}
         >
             {children}
         </motion.div>
