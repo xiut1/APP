@@ -119,11 +119,22 @@ export const BREAKPOINTS = {
 export const ANIMATION_CONFIG = {
     SPRING: {
         type: 'spring' as const,
-        damping: 25,
-        stiffness: 200
+        damping: 18, // 감쇠 감소 (더 오래 진동)
+        stiffness: 150, // 강성 감소 (더 부드러운 움직임)
+        mass: 1.2, // 질량 증가 (더 무거운 느낌)
+        restDelta: 0.001 // 더 정밀한 정지 감지
     },
     EASE: {
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1] as const
+        duration: 0.4, // 지속 시간 증가
+        ease: [0.34, 1.56, 0.64, 1] as const // 큐브릭스 스타일의 이징 함수
+    },
+    // 큐브릭스 스타일의 추가 애니메이션 설정
+    CUBRIX: {
+        type: 'spring' as const,
+        damping: 15,
+        stiffness: 120,
+        mass: 1.5,
+        velocity: 2,
+        restDelta: 0.0005
     }
 };

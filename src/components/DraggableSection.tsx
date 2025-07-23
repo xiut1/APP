@@ -39,8 +39,11 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
                 left: position.x,
                 top: position.y,
                 cursor: isFixed ? 'default' : (isDragging ? 'grabbing' : 'grab'),
-                zIndex: isDragging ? DRAG_CONFIG.DRAG_Z_INDEX : zIndex,
-                filter: isFixed ? 'brightness(1.2) saturate(1.3)' : 'none',
+                zIndex: isDragging ? DRAG_CONFIG.DRAG_Z_INDEX : (isGravityActive ? zIndex + 1 : zIndex),
+                // 중력 효과 활성화 시 필터는 animate에서 처리
+                transformOrigin: 'center bottom', // 회전 중심점 설정
+                willChange: 'transform', // 성능 최적화
+                perspective: '1000px', // 3D 효과를 위한 원근감 추가
             }}
             className={`w-full md:w-[600px] ${className} ${isFixed ? 'ring-2 ring-yellow-400 ring-opacity-50' : ''}`}
             {...handlers}
@@ -50,11 +53,22 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
                 boxShadow: isFixed 
                     ? '0 0 20px rgba(255, 255, 0, 0.3), 3px 3px 8px rgba(0, 0, 0, 0.3)'
                     : isGravityActive 
-                        ? '2px 2px 6px rgba(0, 0, 0, 0.2)'
+                        ? '0 8px 20px rgba(0, 0, 0, 0.15)' // 중력 활성화 시 더 부드러운 그림자
                         : '3px 3px 8px rgba(0, 0, 0, 0.3)',
+                // 필터 효과 - 배열 형태 제거하여 에러 해결
+                filter: isGravityActive 
+                    ? 'blur(0.3px)'
+                    : (isFixed ? 'brightness(1.2) saturate(1.3)' : 'none'),
             }}
-            transition={ANIMATION_CONFIG.SPRING}
-            whileHover={!isFixed ? { scale: 1.02, rotate: 0 } : {}}
+            transition={isGravityActive ? ANIMATION_CONFIG.CUBRIX : ANIMATION_CONFIG.SPRING}
+            whileHover={!isFixed ? { 
+                scale: 1.03, 
+                rotate: 0,
+                translateY: -5, // 문자열 대신 숫자 값 사용
+                transition: {
+                    translateY: { type: 'spring', stiffness: 300, damping: 15 }
+                }
+            } : {}}
         >
             {children}
         </motion.div>
