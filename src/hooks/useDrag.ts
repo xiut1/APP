@@ -4,6 +4,7 @@ import { Position, DragState } from '../types/portfolio';
 interface UseDragProps {
     initialPosition?: Position;
     onPositionChange?: (position: Position) => void;
+    onDragStart?: () => void;
     boundaries?: {
         minX?: number;
         maxX?: number;
@@ -16,6 +17,7 @@ interface UseDragProps {
 export const useDrag = ({
     initialPosition = { x: 0, y: 0 },
     onPositionChange,
+    onDragStart,
     boundaries,
     disabled = false
 }: UseDragProps) => {
@@ -61,6 +63,7 @@ export const useDrag = ({
         };
         
         setDragState(newDragState);
+        onDragStart?.();
     }, [disabled, position]);
 
     // 마우스 이동 핸들러
@@ -103,7 +106,8 @@ export const useDrag = ({
         };
         
         setDragState(newDragState);
-    }, [disabled, position]);
+        onDragStart?.();
+    }, [disabled, position, onDragStart]);
 
     const handleTouchMove = useCallback((e: TouchEvent) => {
         if (!dragState.isDragging) return;

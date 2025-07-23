@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './common/Card';
 
 interface ExperienceItem {
     id: string;
@@ -25,21 +26,20 @@ const Experience = () => {
     ];
 
     return (
-        <section className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold mb-6">Experience</h2>
+        <Card title="Experience">
             <div className="space-y-8">
                 {experiences.map((exp) => (
                     <div
                         key={exp.id}
-                        className="border-l-4 border-blue-500 pl-4 hover:border-blue-600 transition-colors"
+                        className="border-l-4 border-blue-400 pl-6 hover:border-blue-300 transition-colors"
                     >
-                        <h3 className="text-xl font-semibold">{exp.company}</h3>
-                        <div className="text-gray-600 mb-2">
+                        <h3 className="text-xl font-semibold text-white mb-1">{exp.company}</h3>
+                        <div className="text-gray-400 mb-3">
                             {exp.position} | {exp.period}
                         </div>
                         <ul className="list-disc list-inside space-y-2">
                             {exp.description.map((item, index) => (
-                                <li key={index} className="text-gray-700">
+                                <li key={index} className="text-gray-300">
                                     {item}
                                 </li>
                             ))}
@@ -47,8 +47,8 @@ const Experience = () => {
                     </div>
                 ))}
             </div>
-        </section>
+        </Card>
     );
 };
 
-export default Experience; 
+export default Experience;

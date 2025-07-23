@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './common/Card';
 
 interface TechItem {
     id: string;
@@ -31,32 +32,31 @@ const TechStack = () => {
     ];
 
     return (
-        <section className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold mb-6">Tech Stack</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card title="Tech Stack">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {technologies.map((tech) => (
                     <div
                         key={tech.id}
-                        className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                        className="p-4 border border-gray-700 bg-gray-800 rounded-lg hover:border-gray-600 transition-all duration-300"
                     >
-                        <div className="flex items-center mb-2">
-                            <span className="text-2xl mr-2">{tech.icon}</span>
-                            <h3 className="text-xl font-semibold">{tech.name}</h3>
+                        <div className="flex items-center mb-3">
+                            <span className="text-2xl mr-3">{tech.icon}</span>
+                            <h3 className="text-lg font-semibold text-white">{tech.name}</h3>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="w-full bg-gray-700 rounded-full h-2.5 mb-2">
                             <div
-                                className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                                className="bg-blue-400 h-2.5 rounded-full transition-all duration-300"
                                 style={{ width: `${tech.proficiency}%` }}
                             />
                         </div>
-                        <span className="text-sm text-gray-600 mt-1">
+                        <span className="text-sm text-gray-400">
                             숙련도: {tech.proficiency}%
                         </span>
                     </div>
                 ))}
             </div>
-        </section>
+        </Card>
     );
 };
 
-export default TechStack; 
+export default TechStack;

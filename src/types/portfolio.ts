@@ -72,8 +72,10 @@ export interface DraggableSectionProps {
     id: string;
     children: React.ReactNode;
     onPositionChange: (id: string, position: Position) => void;
+    onDragStart?: (id: string) => void;
     initialPosition?: Position;
     className?: string;
+    zIndex?: number;
 }
 
 // 섹션 관련 타입

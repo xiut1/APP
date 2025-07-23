@@ -8,8 +8,10 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
     id, 
     children, 
     onPositionChange, 
+    onDragStart,
     initialPosition = { x: 0, y: 0 },
-    className = ''
+    className = '',
+    zIndex = 1
 }) => {
     const handlePositionChange = useCallback((position: typeof initialPosition) => {
         onPositionChange(id, position);
@@ -18,6 +20,7 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
     const { position, isDragging, handlers } = useDrag({
         initialPosition,
         onPositionChange: handlePositionChange,
+        onDragStart: () => onDragStart?.(id),
         boundaries: {
             minX: 0,
             minY: 0,
@@ -33,20 +36,20 @@ const DraggableSection: React.FC<DraggableSectionProps> = ({
                 left: position.x,
                 top: position.y,
                 cursor: isDragging ? 'grabbing' : 'grab',
-                zIndex: isDragging ? DRAG_CONFIG.DRAG_Z_INDEX : 1,
+                zIndex: isDragging ? DRAG_CONFIG.DRAG_Z_INDEX : zIndex,
             }}
             className={`w-full md:w-[600px] ${className}`}
             {...handlers}
             animate={{
                 scale: isDragging ? 1.05 : 1,
-                rotate: isDragging ? 2 : 0,
+                rotate: isDragging ? 3 : Math.random() * 4 - 2,
             }}
             transition={ANIMATION_CONFIG.SPRING}
-            whileHover={{ scale: 1.01 }}
+            whileHover={{ scale: 1.02, rotate: 0 }}
         >
             {children}
         </motion.div>
     );
 };
 
-export default DraggableSection; 
+export default DraggableSection;

@@ -17,19 +17,19 @@ const AboutMe = () => {
                         />
                     )}
                     <div>
-                        <h3 className="text-xl font-semibold text-gray-800">{personalInfo.name}</h3>
-                        <p className="text-lg text-blue-600">{personalInfo.title}</p>
+                        <h3 className="text-xl font-semibold text-white">{personalInfo.name}</h3>
+                        <p className="text-lg text-blue-400">{personalInfo.title}</p>
                     </div>
                 </div>
                 
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                     {personalInfo.description}
                 </p>
                 
                 <div className="flex flex-wrap gap-4 pt-4">
                     <a 
                         href={`mailto:${personalInfo.email}`} 
-                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                        className="text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center"
                     >
                         📧 이메일
                     </a>
@@ -37,7 +37,7 @@ const AboutMe = () => {
                         href={personalInfo.github} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                        className="text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center"
                     >
                         🐙 GitHub
                     </a>
@@ -45,7 +45,7 @@ const AboutMe = () => {
                         href={personalInfo.linkedin} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                        className="text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center"
                     >
                         💼 LinkedIn
                     </a>
@@ -54,7 +54,7 @@ const AboutMe = () => {
                             href={personalInfo.website} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center"
+                            className="text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center"
                         >
                             🌐 Website
                         </a>
@@ -65,4 +65,4 @@ const AboutMe = () => {
     );
 };
 
-export default AboutMe; 
+export default AboutMe;
